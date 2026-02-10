@@ -382,6 +382,21 @@ body.theme-jaune {
     p {
         hyphens: none !important;
     }
+
+       body {
+    /* Force le body à prendre la couleur du thème */
+    background-color: var(--column-color, white); 
+    
+    /* S'assure que le body prend au moins toute la hauteur de l'écran */
+    min-height: 100vh;
+    /* Pour les navigateurs mobiles récents qui gèrent la barre d'adresse dynamique */
+    min-height: 100dvh; 
+    }
+
+    /* Cas particulier pour l'Index sur mobile (qui est blanc) */
+    body.index {
+    background-color: white; 
+    }
     
     /* ------------------------------------------------
        HEADERS
