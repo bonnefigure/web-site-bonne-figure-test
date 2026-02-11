@@ -86,7 +86,7 @@ p {
 ====================================================== */
 /* Cache la grille par défaut sur l'index */
 .index .masonry-grid {
-    opacity: 0;
+    opacity: 1;
 }
 
 .masonry-grid {
