@@ -120,44 +120,45 @@
     <script src="https://unpkg.com/imagesloaded@5/imagesloaded.pkgd.min.js"></script>
     
 <script>
-    // 1. Sélection des éléments
     var grid = document.querySelector('.masonry-grid');
     var scrollContainer = document.querySelector('.column.left');
     var isMobile = window.innerWidth <= 768;
 
-    // 2. Initialisation de Masonry avec imagesLoaded
+    // --- ÉTAPE 1 : LE SCROLL IMMÉDIAT ---
+    // On n'attend pas Masonry, on restaure le scroll tout de suite
+    var savedScroll = sessionStorage.getItem('scrollPosition');
+    if (savedScroll) {
+        if (isMobile) {
+            window.scrollTo({ top: parseInt(savedScroll), behavior: 'instant' });
+        } else {
+            scrollContainer.scrollTop = parseInt(savedScroll);
+        }
+    }
+    
+    // On force l'opacité à 1 tout de suite pour éviter le flash blanc
+    grid.style.opacity = '1';
+
+    // --- ÉTAPE 2 : CALCUL DE LA GRILLE ---
     imagesLoaded(grid, function() {
         var masonry = new Masonry(grid, {
             itemSelector: '.masonry-item',
             columnWidth: '.masonry-item',
             percentPosition: true,
-            gutter: 0,           // On garde tes réglages précis
-            fitWidth: false,     // On garde tes réglages précis
+            gutter: 0,
+            fitWidth: false,
             horizontalOrder: true
         });
 
-        // --- POSITIONNEMENT INVISIBLE ---
-        // On récupère la position
-        var savedScroll = sessionStorage.getItem('scrollPosition');
-        
+        // Une fois Masonry prêt, on recadre une dernière fois au cas où 
+        // les hauteurs d'images auraient bougé le layout
         if (savedScroll) {
-            if (isMobile) {
-                // On téléporte la fenêtre immédiatement
-                window.scrollTo({ top: parseInt(savedScroll), behavior: 'instant' });
-            } else {
-                // On téléporte la colonne immédiatement
-                scrollContainer.scrollTop = parseInt(savedScroll);
-            }
+            if (isMobile) window.scrollTo({ top: parseInt(savedScroll), behavior: 'instant' });
+            else scrollContainer.scrollTop = parseInt(savedScroll);
         }
-
-        // --- AFFICHAGE NET ET SEC ---
-        // Maintenant que le scroll est placé, on montre la grille d'un coup
-        grid.style.opacity = '1';
     });
 
-    // 3. Sauvegarder la position au clic sur un projet
+    // --- ÉTAPE 3 : SAUVEGARDE ---
     var projectLinks = document.querySelectorAll('.masonry-item a');
-    
     projectLinks.forEach(function(link) {
         link.addEventListener('click', function() {
             var currentScroll = isMobile ? window.pageYOffset : scrollContainer.scrollTop;
