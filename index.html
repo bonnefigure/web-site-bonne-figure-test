@@ -123,6 +123,7 @@
     // 1. Sélection des éléments
     var grid = document.querySelector('.masonry-grid');
     var scrollContainer = document.querySelector('.column.left');
+    var isMobile = window.innerWidth <= 768; // On définit le mode une bonne fois pour toutes
 
     // 2. Initialisation de Masonry avec imagesLoaded
     imagesLoaded(grid, function() {
@@ -134,35 +135,36 @@
             fitWidth: false,
             horizontalOrder: true
         });
-    // --- LA CORRECTION ICI ---
-    // On affiche la grille d'un coup sec une fois calculée
-    grid.style.opacity = '1';
 
-        // --- C'est ici que la magie opère pour le Desktop ---
+        // On affiche la grille
+        grid.style.opacity = '1';
+
+        // --- LA MAGIE HYBRIDE (Desktop + Mobile) ---
         
-        // On vérifie si on a une position de scroll en mémoire
         var savedScroll = sessionStorage.getItem('scrollPosition');
         
-        // Si oui, et qu'on est sur desktop (la colonne scroll), on l'applique
-        if (savedScroll && window.innerWidth > 768) {
-            scrollContainer.scrollTop = savedScroll;
+        if (savedScroll) {
+            // On laisse un micro-délai (40ms) pour que le navigateur digère le layout Masonry
+            setTimeout(function() {
+                if (isMobile) {
+                    window.scrollTo(0, parseInt(savedScroll));
+                } else {
+                    scrollContainer.scrollTop = parseInt(savedScroll);
+                }
+            }, 40);
         }
     });
 
     // 3. Sauvegarder la position avant de quitter la page
-    // On écoute tous les clics sur les liens des projets
     var projectLinks = document.querySelectorAll('.masonry-item a');
     
     projectLinks.forEach(function(link) {
         link.addEventListener('click', function() {
-            // On enregistre la position actuelle du scroll de la colonne gauche
-            sessionStorage.setItem('scrollPosition', scrollContainer.scrollTop);
+            // On enregistre soit le scroll de la fenêtre (mobile), soit de la colonne (desktop)
+            var currentScroll = isMobile ? window.pageYOffset : scrollContainer.scrollTop;
+            sessionStorage.setItem('scrollPosition', currentScroll);
         });
     });
-    
-    // (Optionnel) Nettoyage : Si on recharge la page manuellement (F5), 
-    // on peut vouloir revenir en haut. Décommentez la ligne ci-dessous si c'est le cas.
-    // window.onbeforeunload = function() { sessionStorage.removeItem('scrollPosition'); };
 </script>
 </body>
 </html>
