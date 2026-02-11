@@ -20,11 +20,11 @@
     <a href="a_propos_about.html" class="btn-about">à propos<span lang="en"> about</span></a>
     <a href="a_propos_about.html" class="btn-about-fr">à propos</a>
     <a href="a_propos_about.html" class="btn-about-en"><span lang="en">about</span></a>
+    
     <a href="index.html" class="btn-back">retour <span lang="en">back</span></a>
-    <a href="index.html" onclick="history.back(); return false;" class="btn-back">retour <span lang="en">back</span></a>
-    <a href="index.html" onclick="history.back(); return false;" class="btn-back-fr">retour</a>
-    <a href="index.html" onclick="history.back(); return false;" class="btn-back-en"><span lang="en">back</span></a>
-    </nav>
+    <a href="index.html" class="btn-back-fr">retour</a>
+    <a href="index.html" class="btn-back-en"><span lang="en">back</span></a>
+</nav>
     <main class="split">
         <section class="column left">
             <p>Signalétique du Centre Culturel André Malraux, scène nationale de Vandoeuvre-lès-Nancy</p>
@@ -52,16 +52,17 @@
             <img src="images/ccam/ccam6.jpg" alt="ccam">
         </section>
     </main>
-    <script>
+<script>
 document.querySelectorAll('.btn-back, .btn-back-fr, .btn-back-en').forEach(link => {
     link.addEventListener('click', function(e) {
-        // On vérifie si l'utilisateur vient d'une page de votre site
-        // et s'il y a un historique de navigation
-        if (document.referrer.indexOf(window.location.host) !== -1 && window.history.length > 1) {
-            e.preventDefault(); // On empêche le lien "index.html" de s'activer
-            window.history.back(); // On utilise l'historique pour retrouver le scroll Masonry
+        // On vérifie si le site précédent est bien le même domaine que le site actuel
+        const isFromMySite = document.referrer.includes(window.location.hostname);
+        
+        if (isFromMySite && window.history.length > 1) {
+            e.preventDefault();
+            window.history.back();
         } 
-        // Sinon, on laisse le lien href="index.html" faire son travail normalement
+        // Si non, le navigateur suit naturellement le lien href="index.html"
     });
 });
 </script>
