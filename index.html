@@ -123,40 +123,23 @@
     var grid = document.querySelector('.masonry-grid');
     var scrollContainer = document.querySelector('.column.left');
     var isMobile = window.innerWidth <= 768;
-    var savedScroll = sessionStorage.getItem('scrollPosition');
 
-    // --- STRATÉGIE D'AFFICHAGE ---
-    // Si on a un scroll en mémoire (donc un "Retour"), on montre la grille plus vite
-    // Sinon (premier chargement), on reste invisible pour éviter le désordre
-    if (!savedScroll) {
-        grid.style.opacity = '0'; 
-    }
-
+    // 1. On lance Masonry (on attend que les images soient là pour éviter les chevauchements)
     imagesLoaded(grid, function() {
-        // 1. On initialise Masonry
-        var masonry = new Masonry(grid, {
+        new Masonry(grid, {
             itemSelector: '.masonry-item',
             columnWidth: '.masonry-item',
             percentPosition: true,
             gutter: 0,
-            fitWidth: false,
             horizontalOrder: true
         });
 
-        // 2. Si on a une position mémorisée, on l'applique AVANT de montrer
-        if (savedScroll) {
-            if (isMobile) {
-                window.scrollTo({ top: parseInt(savedScroll), behavior: 'instant' });
-            } else {
-                scrollContainer.scrollTop = parseInt(savedScroll);
-            }
-        }
-
-        // 3. On affiche enfin la grille (proprement rangée)
+        // Une fois calculé, on affiche la grille d'un coup sec
         grid.style.opacity = '1';
     });
 
-    // 4. Sauvegarde de la position au clic
+    // 2. Sauvegarde de la position (Sécurité pour le scroll)
+    // Même si history.back() est utilisé, c'est bien de garder cette mémoire
     var projectLinks = document.querySelectorAll('.masonry-item a');
     projectLinks.forEach(function(link) {
         link.addEventListener('click', function() {
