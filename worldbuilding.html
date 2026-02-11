@@ -20,11 +20,19 @@
     <a href="a_propos_about.html" class="btn-about">à propos<span lang="en"> about</span></a>
     <a href="a_propos_about.html" class="btn-about-fr">à propos</a>
     <a href="a_propos_about.html" class="btn-about-en"><span lang="en">about</span></a>
-    
-    <a href="index.html" class="btn-back">retour <span lang="en">back</span></a>
-    <a href="index.html" class="btn-back-fr">retour</a>
-    <a href="index.html" class="btn-back-en"><span lang="en">back</span></a>
-</nav>
+
+    <a href="index.html" 
+       onclick="if(document.referrer.includes(window.location.hostname)){ history.back(); return false; }" 
+       class="btn-back">retour <span lang="en">back</span></a>
+       
+    <a href="index.html" 
+       onclick="if(document.referrer.includes(window.location.hostname)){ history.back(); return false; }" 
+       class="btn-back-fr">retour</a>
+       
+    <a href="index.html" 
+       onclick="if(document.referrer.includes(window.location.hostname)){ history.back(); return false; }" 
+       class="btn-back-en"><span lang="en">back</span></a>
+    </nav>
     <main class="split">
         <section class="column left">
             <p>Worldbuilding</p>
