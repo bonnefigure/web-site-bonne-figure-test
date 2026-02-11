@@ -123,23 +123,17 @@
     var grid = document.querySelector('.masonry-grid');
     var scrollContainer = document.querySelector('.column.left');
     var isMobile = window.innerWidth <= 768;
-
-    // --- ÉTAPE 1 : LE SCROLL IMMÉDIAT ---
-    // On n'attend pas Masonry, on restaure le scroll tout de suite
     var savedScroll = sessionStorage.getItem('scrollPosition');
-    if (savedScroll) {
-        if (isMobile) {
-            window.scrollTo({ top: parseInt(savedScroll), behavior: 'instant' });
-        } else {
-            scrollContainer.scrollTop = parseInt(savedScroll);
-        }
-    }
-    
-    // On force l'opacité à 1 tout de suite pour éviter le flash blanc
-    grid.style.opacity = '1';
 
-    // --- ÉTAPE 2 : CALCUL DE LA GRILLE ---
+    // --- STRATÉGIE D'AFFICHAGE ---
+    // Si on a un scroll en mémoire (donc un "Retour"), on montre la grille plus vite
+    // Sinon (premier chargement), on reste invisible pour éviter le désordre
+    if (!savedScroll) {
+        grid.style.opacity = '0'; 
+    }
+
     imagesLoaded(grid, function() {
+        // 1. On initialise Masonry
         var masonry = new Masonry(grid, {
             itemSelector: '.masonry-item',
             columnWidth: '.masonry-item',
@@ -149,15 +143,20 @@
             horizontalOrder: true
         });
 
-        // Une fois Masonry prêt, on recadre une dernière fois au cas où 
-        // les hauteurs d'images auraient bougé le layout
+        // 2. Si on a une position mémorisée, on l'applique AVANT de montrer
         if (savedScroll) {
-            if (isMobile) window.scrollTo({ top: parseInt(savedScroll), behavior: 'instant' });
-            else scrollContainer.scrollTop = parseInt(savedScroll);
+            if (isMobile) {
+                window.scrollTo({ top: parseInt(savedScroll), behavior: 'instant' });
+            } else {
+                scrollContainer.scrollTop = parseInt(savedScroll);
+            }
         }
+
+        // 3. On affiche enfin la grille (proprement rangée)
+        grid.style.opacity = '1';
     });
 
-    // --- ÉTAPE 3 : SAUVEGARDE ---
+    // 4. Sauvegarde de la position au clic
     var projectLinks = document.querySelectorAll('.masonry-item a');
     projectLinks.forEach(function(link) {
         link.addEventListener('click', function() {
