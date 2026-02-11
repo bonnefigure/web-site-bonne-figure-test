@@ -52,19 +52,5 @@
             <img src="images/ccam/ccam6.jpg" alt="ccam">
         </section>
     </main>
-<script>
-document.querySelectorAll('.btn-back, .btn-back-fr, .btn-back-en').forEach(link => {
-    link.addEventListener('click', function(e) {
-        // On vérifie si le site précédent est bien le même domaine que le site actuel
-        const isFromMySite = document.referrer.includes(window.location.hostname);
-        
-        if (isFromMySite && window.history.length > 1) {
-            e.preventDefault();
-            window.history.back();
-        } 
-        // Si non, le navigateur suit naturellement le lien href="index.html"
-    });
-});
-</script>
 </body>
 </html>
