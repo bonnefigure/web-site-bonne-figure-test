@@ -52,5 +52,18 @@
             <img src="images/ccam/ccam6.jpg" alt="ccam">
         </section>
     </main>
+    <script>
+document.querySelectorAll('.btn-back, .btn-back-fr, .btn-back-en').forEach(link => {
+    link.addEventListener('click', function(e) {
+        // On vérifie si l'utilisateur vient d'une page de votre site
+        // et s'il y a un historique de navigation
+        if (document.referrer.indexOf(window.location.host) !== -1 && window.history.length > 1) {
+            e.preventDefault(); // On empêche le lien "index.html" de s'activer
+            window.history.back(); // On utilise l'historique pour retrouver le scroll Masonry
+        } 
+        // Sinon, on laisse le lien href="index.html" faire son travail normalement
+    });
+});
+</script>
 </body>
 </html>
