@@ -433,14 +433,14 @@ body.theme-jaune {
     .site-header {
         flex-direction: row;
         justify-content: space-between;
-        padding: 0;
+        padding-top: 0px;
         /* display: flex est déjà hérité du desktop */
     }
     
     .header-left,
     .header-right {
         width: auto;
-        padding: 10px;
+        padding: 0px 10px;
         position: relative; /* Indispensable pour placer les images du rébus */
         pointer-events: auto;
     }
@@ -457,6 +457,17 @@ body.theme-jaune {
        AJUSTEMENTS RÉBUS (INDEX UNIQUEMENT)
     ------------------------------------------------ */
     /* On réduit ou supprime les marges desktop qui seraient trop grandes ici */
+    .index-rebus .header-left,
+    .index-rebus .header-right {
+        padding-top: 10px; /* Mets 0 pour coller au plafond, ou 10px si tu veux un petit espace */
+    }
+
+    .index-rebus .letter-b,
+    .index-rebus .letter-ure {
+        display: inline-block;
+        margin-top: 0px; /* Plus besoin de valeur négative bricolée ! */
+    }
+
     .index-rebus .letter-b {
         margin-right: 35px; /* Espace pour l'image "onne" */
         display: inline-block;
@@ -469,15 +480,15 @@ body.theme-jaune {
 
     /* Taille et position des images sur mobile */
     .onne {
-        height: 55px;    /* Taille réduite pour petit écran */
-        top: 20px;        /* Aligné verticalement au b */
-        right: -50px;      /* Placé dans la marge créée ci-dessus */
+        height: 35px;    /* Taille réduite pour petit écran */
+        top: 8px;        /* Aligné verticalement au b */
+        right: -17px;      /* Placé dans la marge créée ci-dessus */
     }
 
     .fig {
-        height: 55px;    /* Taille réduite pour petit écran */
-        top: 20px;      /* Ajusté pour ne pas chevaucher le texte */
-        left: 10px;       /* Placé dans la marge créée ci-dessus */
+        height: 28px;    /* Taille réduite pour petit écran */
+        top: 8px;      /* Ajusté pour ne pas chevaucher le texte */
+        left: 37px;       /* Placé dans la marge créée ci-dessus */
     }
     
     /* ------------------------------------------------
