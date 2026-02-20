@@ -445,6 +445,11 @@ body.theme-jaune {
         pointer-events: auto;
     }
 
+    body:not(.index) .header-left,
+    body:not(.index) .header-right {
+    padding-top: 10px;
+    }
+
     .header-left {
         text-align: left;
     }
