@@ -80,6 +80,9 @@ p {
     hyphens: none;
 }
 
+.small-caps {
+    font-variant: small-caps;
+}
 
 /* ======================================================
    MASONRY GRID (INDEX)
@@ -144,6 +147,7 @@ p {
 }
 .header-left,
 .header-right {
+    font-size: inherit;
     width: 50%;
     padding: 30px 30px 0 30px;
     background: transparent;
@@ -155,6 +159,45 @@ p {
 .header-right {
     text-align: left;
     color: var(--header-right-color, black);
+}
+
+/* On s'assure que les colonnes permettent le placement absolu des images */
+.index-rebus .header-left, 
+.index-rebus .header-right {
+    position: relative;
+    padding-top: 30px; /* Ton alignement fixe pour le texte */
+}
+
+/* Style de base commun (sans la taille) */
+.rebus-img {
+    position: absolute;
+    width: auto; /* Garde les proportions */
+    pointer-events: none;
+}
+
+/* Réglage indépendant pour l'image de GAUCHE ("onne") */
+.onne {
+    height: 35px;  /* Ajuste cette valeur selon ton image */
+    top: 28px;     /* Position verticale */
+    right: 30px;   /* Position horizontale */
+}
+
+/* Réglage indépendant pour l'image de DROITE ("fig") */
+.fig {
+    height: 30px; /* Ajuste cette valeur selon ton image */
+    top: 26px;    /* Tu peux même mettre des valeurs négatives si l'image dépasse */
+    left: 20px;    /* Position horizontale */
+}
+
+/* On décale le texte pour qu'il ne soit pas masqué par l'image */
+.index-rebus .letter-b {
+    margin-right: 63px; /* Décale le B vers la gauche pour laisser la place à l'image */
+    display: inline-block;
+}
+
+.index-rebus .letter-ure {
+    margin-left: 20px;  /* Décale le URE vers la droite pour laisser la place à l'image */
+    display: inline-block;
 }
 
 /* ======================================================
@@ -279,12 +322,12 @@ body.index .column.left {
 /* À propos */
 body.a_propos_about {
     --column-color: #F2F200;
-    --text-en-color: #7D6E55;
+    --text-en-color: #91735A;
     --about-color: black;
-    --about-en-color: #7D6E55;
+    --about-en-color: #91735A;
     --header-right-color: black;
     --back-color: black;
-    --back-en-color: #7D6E55;
+    --back-en-color: #91735A;
 }
 body.a_propos_about .column.right {
     padding-top: 55px;
@@ -313,7 +356,7 @@ body.theme-rouge {
 }
 /* Thème brun */
 body.theme-brun {
-    --column-color: #7D6E55;
+    --column-color: #91735A;
     --text-en-color: #45d7b3;
     --about-color: black;
     --about-en-color: #45d7b3;
@@ -335,23 +378,12 @@ body.theme-turquoise {
 /* Thème jaune */
 body.theme-jaune {
     --column-color: #F2F200;
-    --text-en-color: #7D6E55;
+    --text-en-color: #91735A;
     --about-color: black;
-    --about-en-color: #7D6E55;
+    --about-en-color: #91735A;
     --header-right-color: black;
     --back-color: black;
-    --back-en-color: #7D6E55;
-}
-
-/* Thème jaune */
-body.theme-jaune {
-    --column-color: #F2F200;
-    --text-en-color: #7D6E55;
-    --about-color: black;
-    --about-en-color: #7D6E55;
-    --header-right-color: black;
-    --back-color: black;
-    --back-en-color: #7D6E55;
+    --back-en-color: #91735A;
 }
 
 /* ======================================================
@@ -383,42 +415,69 @@ body.theme-jaune {
         hyphens: none !important;
     }
 
-       body {
-    /* Force le body à prendre la couleur du thème */
+    body {
     background-color: var(--column-color, white); 
     
-    /* S'assure que le body prend au moins toute la hauteur de l'écran */
     min-height: 100vh;
-    /* Pour les navigateurs mobiles récents qui gèrent la barre d'adresse dynamique */
+
     min-height: 100dvh; 
     }
 
-    /* Cas particulier pour l'Index sur mobile (qui est blanc) */
     body.index {
     background-color: white; 
     }
     
     /* ------------------------------------------------
-       HEADERS
+       HEADERS MOBILE
     ------------------------------------------------ */
     .site-header {
         flex-direction: row;
         justify-content: space-between;
         padding: 0;
+        /* display: flex est déjà hérité du desktop */
     }
     
-    .header-left {
+    .header-left,
+    .header-right {
         width: auto;
-        text-align: left;
         padding: 10px;
-        font-size: 1em;
+        position: relative; /* Indispensable pour placer les images du rébus */
+        pointer-events: auto;
+    }
+
+    .header-left {
+        text-align: left;
     }
     
     .header-right {
-        width: auto;
         text-align: right;
-        padding: 10px;
-        font-size: 1em;
+    }
+
+    /* ------------------------------------------------
+       AJUSTEMENTS RÉBUS (INDEX UNIQUEMENT)
+    ------------------------------------------------ */
+    /* On réduit ou supprime les marges desktop qui seraient trop grandes ici */
+    .index-rebus .letter-b {
+        margin-right: 35px; /* Espace pour l'image "onne" */
+        display: inline-block;
+    }
+
+    .index-rebus .letter-ure {
+        margin-left: 55px; /* Espace pour l'image "fig" */
+        display: inline-block;
+    }
+
+    /* Taille et position des images sur mobile */
+    .onne {
+        height: 55px;    /* Taille réduite pour petit écran */
+        top: 20px;        /* Aligné verticalement au b */
+        right: -50px;      /* Placé dans la marge créée ci-dessus */
+    }
+
+    .fig {
+        height: 55px;    /* Taille réduite pour petit écran */
+        top: 20px;      /* Ajusté pour ne pas chevaucher le texte */
+        left: 10px;       /* Placé dans la marge créée ci-dessus */
     }
     
     /* ------------------------------------------------
