@@ -68,6 +68,20 @@ body::-webkit-scrollbar {
     height: auto;
     margin-bottom: 30px;
 }
+
+.video-wrapper {
+    width: 100%;
+    margin-bottom: 30px; /* Aligné sur tes marges d'images */
+}
+
+.video-wrapper iframe {
+    width: 100%;
+    /* Utilise l'aspect-ratio moderne pour garder le format 16/9 */
+    aspect-ratio: 16 / 9; 
+    height: auto;
+    display: block;
+    border: none;
+}
 .two-thirds {
     width: 66.666%;
     display: block;
